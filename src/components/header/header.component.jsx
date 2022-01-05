@@ -1,13 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import './header.styles.scss';
-import { Link } from "react-router-dom";
+// import './header.styles.scss';
+// import { Link } from "react-router-dom";
 import {ReactComponent as Logo} from '../../assets/083 crown.svg';
 import CartIcon from "../cart-icon/cart-icon.component";
 import { auth } from "../../firebase/firebase.utils";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import { selectCartVisible} from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
+import { HeaderContainer, LogoContainer, OptionsContainer, OptionDiv, OptionLink } from "./header.styles";
 
 
 const Header = () => {    
@@ -17,30 +18,32 @@ const Header = () => {
     
 
     return (
-        <div className='header'>
-            <Link className='logo-container' to='/'>
+        <HeaderContainer>
+            <LogoContainer to='/'>
                 <Logo className="logo" />
-            </Link>
-            <div className="options">
-                <Link className='option' to='/shop'>
+            </LogoContainer>
+            <OptionsContainer>
+                <OptionLink to='/shop'>
                     SHOP
-                </Link>
-                <Link className='option' to='/contact'>
+                </OptionLink>
+                <OptionLink to='/contact'>
                     CONTACT
-                </Link>
+                </OptionLink>
                 {
                     currentUser ?
-                        <div className='option' onClick={() => auth.signOut()}>
+                        <OptionDiv onClick={() => auth.signOut()}>
                             SIGN OUT
-                        </div> :
-                        <Link className='option' to="/signin">SIGN IN</Link>
+                        </OptionDiv> :
+                        <OptionLink to="/signin">
+                            SIGN IN
+                        </OptionLink>
                 }
                 <CartIcon />
-            </div>
+            </OptionsContainer>
             {visibleDropdown ? <CartDropdown /> : null}
 
 
-        </div>
+        </HeaderContainer>
 )}
 
 // const mapStateToProps = (state) => ({

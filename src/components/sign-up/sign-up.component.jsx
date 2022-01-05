@@ -29,7 +29,7 @@ export default class SignUp extends Component {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential)=>{
                 const user = userCredential.user;
-                createUserProfileDocument(user, {displayName});
+                createUserProfileDocument(user, displayName);
                 this.setState({displayName: '',
                                email: '',
                                password: '',

@@ -2,8 +2,9 @@
 // import 'firebase/firestore';
 // import auth from 'firebase/auth';
 import {initializeApp} from 'firebase/app';
-import { getFirestore, doc, getDoc,  setDoc } from 'firebase/firestore';
-import { getAuth, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
+import { getFirestore, doc, getDoc,  setDoc, collection, writeBatch } from 'firebase/firestore';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+
 
 const config = {
     apiKey: "AIzaSyC1_I0wgDXhs6BHTys4CeAHkEw9LadCG0I",
@@ -25,8 +26,16 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
 
   const document = doc(firestore, "users", userAuth.uid);
-
   const userSnapshot = await getDoc(document);
+
+  // const collectionRef = collection(firestore, "users");
+  // const collectionSnapshot = await getDocs(collectionRef);
+  // collectionSnapshot.forEach((doc) => {
+  //   // doc.data() is never undefined for query doc snapshots
+  //   console.log(doc.id, " => ", doc.data());
+  // });
+  // console.log({ collection: collectionSnapshot.docs.map(doc=> doc.data()) });
+
 
   if (!userSnapshot.exists()) {
     const {displayName, email} = userAuth;
@@ -46,8 +55,38 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
 }
 
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const collectionRef = collection(firestore, collectionKey);
+  // console.log(collectionRef);
+
+  const batch = writeBatch(firestore);
+  objectsToAdd.forEach(obj => {
+    const newDocRef = doc(collectionRef);
+    batch.set(newDocRef, obj);
+  });
+  return await batch.commit()
+}
+  
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map(doc => {
+    const { title, items } = doc.data();
+
+    return {
+      routeName: `${title.toLowerCase()}`,
+      id: doc.id,
+      title,
+      items
+    };
+  });
+  return transformedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection;
+    return accumulator;
+  }, {})
+}
+
+
 let provider = new GoogleAuthProvider();
 provider.setCustomParameters({prompt: 'select_account'});
-export const signInWithGoogle = () => signInWithRedirect(auth, provider);
+export const signInWithGoogle = () => signInWithPopup(auth, provider);
 
 // export default firebase;
