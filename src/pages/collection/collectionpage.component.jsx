@@ -1,10 +1,10 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import CollectionItem from '../../components/collection-item/collection-item.component';
-// import { selectDirectorySections } from '../../redux/directory/directory.selectors';
 import { selectCollection } from '../../redux/shop/shop.selectors';
 import { useSelector } from 'react-redux';
 import './collectionpage.styles.scss'
+
 
 function CollectionPage() {
 

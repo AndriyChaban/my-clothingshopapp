@@ -26,7 +26,7 @@ const config = {
 initializeApp(config);
 export const auth = getAuth();
 export const firestore = getFirestore();
-// enableIndexedDbPersistence(firestore);
+enableIndexedDbPersistence(firestore);
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
