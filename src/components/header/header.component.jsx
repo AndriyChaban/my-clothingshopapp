@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 // import './header.styles.scss';
 // import { Link } from "react-router-dom";
 import {ReactComponent as Logo} from '../../assets/083 crown.svg';
@@ -9,12 +9,16 @@ import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import { selectCartVisible} from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { HeaderContainer, LogoContainer, OptionsContainer, OptionDiv, OptionLink } from "./header.styles";
+import { signOut } from "firebase/auth";
+import { signOutStart } from "../../redux/user/user.reducer";
+// import { setCurrentUser } from "../../redux/user/user.reducer";
 
 
 const Header = () => {    
    
     const visibleDropdown = useSelector(selectCartVisible);
     const currentUser = useSelector(selectCurrentUser);
+    const dispatch = useDispatch();
     
 
     return (
@@ -31,7 +35,7 @@ const Header = () => {
                 </OptionLink>
                 {
                     currentUser ?
-                        <OptionDiv onClick={() => auth.signOut()}>
+                        <OptionDiv onClick={() => { dispatch(signOutStart()) }}>
                             SIGN OUT
                         </OptionDiv> :
                         <OptionLink to="/signin">

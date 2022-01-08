@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { firestore } from "../../firebase/firebase.utils";
-import { convertCollectionsSnapshotToMap } from "../../firebase/firebase.utils";
-import { collection, orderBy, query, getDocs } from "firebase/firestore";
+// import { firestore } from "../../firebase/firebase.utils";
+// import { convertCollectionsSnapshotToMap } from "../../firebase/firebase.utils";
+// import { collection, orderBy, query, getDocs } from "firebase/firestore";
 // import { useDispatch } from "react-redux";
 // import SHOP_DATA from "./shop.data";
 
@@ -40,19 +40,19 @@ export default collectionSlice.reducer;
 
 
 
-export const fetchCollectionsStartAsync = () => (dispatch) => {
+// export const fetchCollectionsStartAsync = () => (dispatch) => {
 
-        const collectionRef = collection(firestore, 'collections');
+//         const collectionRef = collection(firestore, 'collections');
 
-        const q = query(collectionRef, orderBy("sortId", "asc"));
-        console.log(q);
-        dispatch(fetchCollectionsStart())
+//         const q = query(collectionRef, orderBy("sortId", "asc"));
+//         console.log(q);
+//         dispatch(fetchCollectionsStart())
         
-        getDocs(q).then(snapshot => {
-            const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-            dispatch(fetchCollectionsSuccess(collectionsMap));
-        })
-            .catch(error => dispatch(fetchCollectionsFailure(error.message)));
-    }
+//         getDocs(q).then(snapshot => {
+//             const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+//             dispatch(fetchCollectionsSuccess(collectionsMap));
+//         })
+//             .catch(error => dispatch(fetchCollectionsFailure(error.message)));
+//     }
 
 ////////////////////

@@ -19,10 +19,11 @@ export const cartSlice = createSlice({
         },
         deleteItem: (state, action) => {
             state.cartItems = deleteCartItem(state.cartItems, action.payload); 
-        }
+        },
+        clearCart: (state) => { state.cartItems = [] }
         },
     },
 )
 
-export const {triggerVisibility, addItem, removeItem, deleteItem} = cartSlice.actions;
+export const {triggerVisibility, addItem, removeItem, deleteItem, clearCart} = cartSlice.actions;
 export default cartSlice.reducer

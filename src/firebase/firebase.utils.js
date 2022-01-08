@@ -3,7 +3,7 @@
 // import auth from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, getDoc, setDoc, collection, writeBatch } from 'firebase/firestore';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from 'firebase/auth';
 import { enableIndexedDbPersistence } from "firebase/firestore";
 
 
@@ -34,17 +34,9 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   const document = doc(firestore, "users", userAuth.uid);
   const userSnapshot = await getDoc(document);
 
-  // const collectionRef = collection(firestore, "users");
-  // const collectionSnapshot = await getDocs(collectionRef);
-  // collectionSnapshot.forEach((doc) => {
-  //   // doc.data() is never undefined for query doc snapshots
-  //   console.log(doc.id, " => ", doc.data());
-  // });
-  // console.log({ collection: collectionSnapshot.docs.map(doc=> doc.data()) });
-
-
   if (!userSnapshot.exists()) {
-    const { displayName, email } = userAuth;
+    const { email } = userAuth;
+    const { displayName } = additionalData;
     console.log('in createUserProfileDocument:', displayName, email, userAuth.uid)
     const createdAt = new Date();
 
@@ -53,18 +45,13 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     }
     catch (error) {
       console.log('error creating user', error.message);
-
     }
   }
-
   return userSnapshot;
-
 }
 
 export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
   const collectionRef = collection(firestore, collectionKey);
-  // console.log(collectionRef);
-
   const batch = writeBatch(firestore);
   objectsToAdd.forEach(obj => {
     const newDocRef = doc(collectionRef);
@@ -73,10 +60,10 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
   return await batch.commit()
 }
 
+
 export const convertCollectionsSnapshotToMap = (collections) => {
   const transformedCollection = collections.docs.map(doc => {
     const { title, items } = doc.data();
-
     return {
       routeName: `${title.toLowerCase()}`,
       id: doc.id,
@@ -90,9 +77,17 @@ export const convertCollectionsSnapshotToMap = (collections) => {
   }, {})
 }
 
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(auth, (userAuth) => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject)
+  })
+}
 
-let provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
-export const signInWithGoogle = () => signInWithPopup(auth, provider);
+export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
+export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 
 // export default firebase;
