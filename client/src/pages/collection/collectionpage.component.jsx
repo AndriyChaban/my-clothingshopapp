@@ -5,7 +5,6 @@ import { selectCollection } from '../../redux/shop/shop.selectors';
 import { useSelector } from 'react-redux';
 import './collectionpage.styles.scss'
 
-
 function CollectionPage() {
 
     const { collectionUrlParams } = useParams();

@@ -12,16 +12,11 @@ export function* fetchCollectionAsync() {
         const snapshot = yield getDocs(q);
         const collectionsMap = yield call(convertCollectionsSnapshotToMap, snapshot);
         yield put(fetchCollectionsSuccess(collectionsMap));
-        console.log("I am fired after saga")
+
     }
     catch(error) {
         yield put(fetchCollectionsFailure(error.message))
     }
-    // getDocs(q).then(snapshot => {
-    //     const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-    //     dispatch(fetchCollectionsSuccess(collectionsMap));
-    // })
-    //     .catch(error => dispatch(fetchCollectionsFailure(error.message)));
 }
 
 export function* fetchCollectionsStartSaga() {

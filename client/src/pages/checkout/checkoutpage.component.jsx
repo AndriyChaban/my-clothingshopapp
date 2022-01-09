@@ -1,9 +1,9 @@
 import React from "react";
-import './checkoutpage.styles.scss';
 import { useSelector } from "react-redux";
 import { selectCartItems, selectCartTotal } from "../../redux/cart/cart.selectors";
 import CheckoutItem from "../../components/checkout-item/checkout-item.component";
 import StripeCheckoutButton from "../../components/stripe-button/stripe-button.component";
+import './checkoutpage.styles.scss';
 
 const CheckoutPage = () => {
     const totalPrice = useSelector(selectCartTotal)
@@ -42,5 +42,7 @@ const CheckoutPage = () => {
             </div>
             <StripeCheckoutButton price={totalPrice}/>
     </div>
-)}
+    )
+}
+
 export default CheckoutPage;

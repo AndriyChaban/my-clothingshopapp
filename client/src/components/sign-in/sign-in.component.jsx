@@ -1,23 +1,15 @@
 import React, { useState } from "react";
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
-
-import './sign-in.styles.scss';
 // import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
 // import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
+import './sign-in.styles.scss';
 
 import { googleSignInStart, emailSignInStart } from "../../redux/user/user.reducer";
 
 const SignIn = () => {
-    // constructor(props) {
-    //     super(props);
 
-    //     this.state = {
-    //         email: '',
-    //         password: ''
-    //     }
-    // }
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 

@@ -35,13 +35,8 @@ export const userSlice = createSlice({
         error: null
     },
     reducers: {
-        // googleSignInSuccess: (state, action) => { state.currentUser = action.payload },
-        // emailSignInSuccess: (state, action) => { state.currentUser = action.payload },
-        // googleSignInFailure: (state, action) => { state.error = action.payload },
-        // emailSignInFailure: (state, action) => { state.error = action.payload },
         googleSignInStart: (state) => { },
         emailSignInStart: (state, action) => { },
-        // setCurrentUser: (state, action) => (state.currentUser = action.payload),
         signInSuccess: (state, action) => { state.currentUser = action.payload },
         signInFailure: (state, action) => { state.error = action.payload },
         checkUserSession: () => { },
